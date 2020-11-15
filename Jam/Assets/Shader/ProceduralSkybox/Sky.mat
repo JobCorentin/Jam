@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Sky
-  m_Shader: {fileID: -6465566751694194690, guid: 2fbf58d6c5899d64a8ddb3658d79a117, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: c1ee9ac1c8d521140bae75277c1491fe, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -73,12 +73,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_51C5DF4D: 0.09
-    - Vector1_526602B0: 1
+    - Vector1_51C5DF4D: -0.2
+    - Vector1_526602B0: 2
     - Vector1_5A638968: 0
     - Vector1_69DCC29: 100
     - Vector1_D69BB389: 25
-    - Vector1_E0181F2A: 0.46
+    - Vector1_E0181F2A: 0.41
     - Vector1_FE5E4262: 0.5
     - _AlphaClip: 0
     - _Blend: 0
@@ -112,4 +112,5 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _SunDirection: {r: -0.09, g: 0.05, b: 0.14, a: 0}
   m_BuildTextureStacks: []

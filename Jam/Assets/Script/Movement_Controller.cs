@@ -38,7 +38,7 @@ public class Movement_Controller : MonoBehaviour
 
     private void MovePlayer()
     {
-        Vector3 movementInput = Input_Listener.inp.LeftJoystickInput;
+        Vector3 movementInput = Input_Listener.inp.DirectionInput;
 
         Vector3 forward = mainCamTransform.forward;
         Vector3 right = mainCamTransform.right;
