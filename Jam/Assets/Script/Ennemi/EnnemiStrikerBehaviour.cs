@@ -6,6 +6,7 @@ public class EnnemiStrikerBehaviour : MonoBehaviour
 {
     EnnemiBehaviour ennemi;
     public float speed;
+    public float spawnSpeed;
 
     public bool followCircle;
     private float angle = 0;
@@ -20,8 +21,9 @@ public class EnnemiStrikerBehaviour : MonoBehaviour
     public float attackCooldown;
     public float fireRate;
     public float damage;
-    public GameObject bullet;
+    public GameObject bullet, rocket;
     public Transform shootPoint;
+    public bool basicShoot, rocketShoot, tripleShoot;
 
 
     void Start()
@@ -55,7 +57,7 @@ public class EnnemiStrikerBehaviour : MonoBehaviour
     void MoveTowardPlayer()
     {
 
-        transform.Translate(new Vector3(0, 0, -1) * speed * Time.deltaTime);
+        transform.Translate(new Vector3(0, 0, -1) * spawnSpeed * Time.deltaTime);
     }
 
     void CircleMovement() 
@@ -123,14 +125,40 @@ public class EnnemiStrikerBehaviour : MonoBehaviour
        
     }
     #endregion
-
     void Attack()
     {
+        if (basicShoot == true)
+            BasicAttack();
+        else if (rocketShoot == true)
+            RocketAttack();
+        else if (tripleShoot == true)
+            StartCoroutine(TripleAttack());
+
+    }
+    void BasicAttack()
+    {
         FxManager.fxm.InstantiateFx(shootPoint.position, 1);
-        GameObject newBullet = Instantiate(bullet, transform.position, Quaternion.identity);
+        GameObject newBullet = Instantiate(bullet, shootPoint.transform.position, Quaternion.identity);
         newBullet.GetComponent<EnnemiBulletBehaviour>().setDirAndSpeed(1, PlayerController.control.pos - transform.position);
     }
 
+    void RocketAttack()
+    {
+        FxManager.fxm.InstantiateFx(shootPoint.position, 1);
+        GameObject newBullet = Instantiate(rocket, shootPoint.transform.position, Quaternion.identity);
+    }
+
+    IEnumerator TripleAttack()
+    {
+        int i = 0;
+        for (i=0;i<3;i++)
+        {
+            FxManager.fxm.InstantiateFx(shootPoint.position, 1);
+            GameObject newBullet = Instantiate(bullet, shootPoint.transform.position, Quaternion.identity);
+            newBullet.GetComponent<EnnemiBulletBehaviour>().setDirAndSpeed(1, PlayerController.control.pos - transform.position);
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "Player")

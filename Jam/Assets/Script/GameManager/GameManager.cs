@@ -9,11 +9,16 @@ public class GameManager : MonoBehaviour
     public GameObject[] Line1spawners;
     public GameObject[] Line2spawners;
     public GameObject[] Trianglespawners;
+    public GameObject[] Hexagonspawners;
+    public GameObject[] Crossspawners;
     public GameObject line1, line2, triangleLine;
     public List<GameObject> waveEnnemies = new List<GameObject>();
     public List<GameObject> waveIn = new List<GameObject>();
-
+    public Transform bossSpawnPos;
+    public GameObject boss;
     int waveNumber;
+
+    public GameObject startVisual1, startVisual2,BossVisual1,BossVisual2;
 
     private void Awake()
     {
@@ -23,12 +28,20 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         waveNumber = 0;
-        StartBattle();
+        StartCoroutine(DisplayObjective());
     }
 
-    private void Update()
+    IEnumerator DisplayObjective()
     {
-        
+        yield return new WaitForSeconds(2f);
+        startVisual1.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        startVisual2.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        StartBattle();
+        yield return new WaitForSeconds(3f);
+        startVisual1.SetActive(false);
+        startVisual2.SetActive(false);
     }
 
     private void StartBattle()
@@ -47,7 +60,7 @@ public class GameManager : MonoBehaviour
         }
         int random = Random.Range(0, 3);
         #region FirstPhase
-        if (waveNumber <= 5)
+        if (waveNumber <= 3)
         {
 
             if (random == 0)
@@ -74,7 +87,7 @@ public class GameManager : MonoBehaviour
         }
         #endregion
         #region SecondPhase
-        if (waveNumber > 5 && waveNumber <= 10)
+        if (waveNumber > 3 && waveNumber <= 7)
         {
             if (random == 0)
             {
@@ -100,7 +113,7 @@ public class GameManager : MonoBehaviour
         }
         #endregion
         #region ThirdPhase
-        if (waveNumber > 10 && waveNumber <= 15)
+        if (waveNumber > 7 && waveNumber <= 12)
         {
             if (random == 0)
             {
@@ -125,7 +138,12 @@ public class GameManager : MonoBehaviour
             }
         }
         #endregion
-        StartCoroutine( StartSpawn(Random.Range(0,3)));
+
+        if(waveNumber == 13)
+        {
+            StartCoroutine(SpawnBoss());
+        }
+        StartCoroutine( StartSpawn(Random.Range(0,5)));
     }
 
     IEnumerator StartSpawn(int spawnPattern)
@@ -151,7 +169,32 @@ public class GameManager : MonoBehaviour
                 GameObject ennemi = Instantiate(waveEnnemies[i], Trianglespawners[i].transform.position, Quaternion.identity);
                 waveIn.Add(ennemi);
             }
+
+            if (spawnPattern == 3)
+            {
+                GameObject ennemi = Instantiate(waveEnnemies[i], Hexagonspawners[i].transform.position, Quaternion.identity);
+                waveIn.Add(ennemi);
+            }
+            if (spawnPattern == 4)
+            {
+                GameObject ennemi = Instantiate(waveEnnemies[i], Crossspawners[i].transform.position, Quaternion.identity);
+                waveIn.Add(ennemi);
+            }
         }
+    }
+
+    IEnumerator SpawnBoss()
+    {
+        yield return new WaitForSeconds(2f);
+        BossVisual1.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        BossVisual2.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        BossVisual1.SetActive(false);
+        BossVisual2.SetActive(false);
+        yield return new WaitForSeconds(1f);
+        Instantiate(boss, bossSpawnPos.position, Quaternion.identity);
+        yield return null;
     }
 
     public void RemoveFromList(GameObject ennemi)

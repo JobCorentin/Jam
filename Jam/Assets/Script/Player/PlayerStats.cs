@@ -24,13 +24,23 @@ public class PlayerStats : MonoBehaviour
             UIManager.ui.SetHealtbarValue();
             StartCoroutine(DamagePostProcess());
             SimpleCameraShakeInCinemachine.camShake.Shake(1f, 2f);
+            if(health <= 0)
+            {
+                FxManager.fxm.InstantiateFx(transform.position, 4);
+            }
+            else
+            {
+                FxManager.fxm.InstantiateFx(transform.position, 3);
+            }
         }
         if(health <= 0)
         {
             Die();
         }
-        StartCoroutine(Timer(1f));
-
+        else
+        {
+            StartCoroutine(Timer(1f));
+        }
     }
 
     IEnumerator Timer(float time)
@@ -41,7 +51,8 @@ public class PlayerStats : MonoBehaviour
 
     public void Die()
     {
-        Debug.Log("Game Over");
+        gameOverUI.gameOver.ActivateGameOver();
+        gameObject.SetActive(false);
     }
 
     public IEnumerator DamagePostProcess()

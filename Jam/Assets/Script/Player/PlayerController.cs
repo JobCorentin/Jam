@@ -87,13 +87,44 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(transform.position, CustomCursor.cursor.targetPos - transform.position, out hit, range))
             {
+            if(hit.transform.GetComponent<EnnemiBehaviour>() != null)
+            {
                 EnnemiBehaviour target = hit.transform.GetComponent<EnnemiBehaviour>();
-                if(target != null)
+                if (target != null)
                 {
-                FxManager.fxm.InstantiateFx(hit.point + fxOffset, 2);
-                target.TakeDamage(damage);
+                    FxManager.fxm.InstantiateFx(hit.point + fxOffset, 2);
+                    target.TakeDamage(damage);
                 }
             }
+            else if(hit.transform.GetComponent<EnnemiRocketBehaviour>() != null)
+            {
+                EnnemiRocketBehaviour target = hit.transform.GetComponent<EnnemiRocketBehaviour>();
+                if (target != null)
+                {
+                    FxManager.fxm.InstantiateFx(hit.point + fxOffset, 2);
+                    target.TakeDamage(damage);
+                }
+            }
+            else if (hit.transform.GetComponent<BossBehavior>() != null)
+            {
+                BossBehavior target = hit.transform.GetComponent<BossBehavior>();
+                if (target != null)
+                {
+                    FxManager.fxm.InstantiateFx(hit.point + fxOffset, 2);
+                    target.TakeDamage(damage);
+                }
+            }
+            else if (hit.transform.GetComponent<BossSubUnits>() != null)
+            {
+                BossSubUnits target = hit.transform.GetComponent<BossSubUnits>();
+                if (target != null)
+                {
+                    FxManager.fxm.InstantiateFx(hit.point + fxOffset, 2);
+                    target.TakeDamage(damage);
+                }
+            }
+
+        }
 
     }
 }
